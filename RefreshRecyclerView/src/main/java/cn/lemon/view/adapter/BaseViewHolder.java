@@ -14,6 +14,13 @@ public class BaseViewHolder<T> extends RecyclerView.ViewHolder{
 
     private final String TAG = "BaseViewHolder";
 
+    RecyclerAdapter.OnItemClickListener<T> listener;
+
+    public void setListener(RecyclerAdapter.OnItemClickListener<T> listener) {
+        this.listener = listener;
+
+    }
+
     public BaseViewHolder(View itemView) {
         super(itemView);
     }
@@ -22,6 +29,8 @@ public class BaseViewHolder<T> extends RecyclerView.ViewHolder{
         super(LayoutInflater.from(parent.getContext()).inflate(layoutId, parent, false));
         onInitializeView();
     }
+
+
 
     public void onInitializeView() {
 
@@ -41,7 +50,9 @@ public class BaseViewHolder<T> extends RecyclerView.ViewHolder{
     }
 
     public void onItemViewClick(T data) {
-
+        if(listener!=null){
+            listener.onItemClick(data,getAdapterPosition());
+        }
     }
 
 }

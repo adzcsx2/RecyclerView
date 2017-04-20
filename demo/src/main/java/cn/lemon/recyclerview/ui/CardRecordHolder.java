@@ -17,6 +17,12 @@ class CardRecordHolder extends BaseViewHolder<Consumption> {
     private TextView consumeAddress;
     private TextView time;
 
+    private OnItemClickListener listener;
+
+    public void setListener(OnItemClickListener listener) {
+        this.listener = listener;
+    }
+
     public CardRecordHolder(ViewGroup parent) {
         super(parent, R.layout.holder_consume);
     }
@@ -48,5 +54,11 @@ class CardRecordHolder extends BaseViewHolder<Consumption> {
         super.onItemViewClick(object);
         //点击事件
         Log.i("CardRecordHolder","onItemViewClick");
+        if(listener!=null){
+            listener.onItemClick(object,getAdapterPosition());
+        }
+    }
+    public interface OnItemClickListener<T> {
+        void onItemClick(T data,int position);
     }
 }

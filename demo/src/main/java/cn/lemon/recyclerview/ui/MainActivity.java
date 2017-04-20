@@ -8,18 +8,21 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutCompat;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import cn.alien95.util.Utils;
 import cn.lemon.recyclerview.R;
 import cn.lemon.recyclerview.ui.bean.Consumption;
 import cn.lemon.view.RefreshRecyclerView;
 import cn.lemon.view.adapter.Action;
+import cn.lemon.view.adapter.RecyclerAdapter;
 
 
 public class MainActivity extends AppCompatActivity {
@@ -40,7 +43,13 @@ public class MainActivity extends AppCompatActivity {
         FloatingActionButton mFab = (FloatingActionButton) findViewById(R.id.fab);
 
         mAdapter = new CardRecordAdapter(this);
-
+        mAdapter.setOnItemClickListener(new RecyclerAdapter.OnItemClickListener<Consumption>() {
+            @Override
+            public void onItemClick(Consumption data, int position) {
+                Toast.makeText(MainActivity.this,data.getJe()+"\t"+position ,Toast.LENGTH_SHORT).show();
+                Log.e("asd",data.getJe()+"\t"+position );
+            }
+        });
         //添加Header
         final TextView textView = new TextView(this);
         textView.setLayoutParams(new LinearLayoutCompat.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, Utils.dip2px(48)));

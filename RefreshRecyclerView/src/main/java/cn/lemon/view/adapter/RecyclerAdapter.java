@@ -25,7 +25,7 @@ import cn.lemon.view.R;
 public abstract class RecyclerAdapter<T> extends RecyclerView.Adapter<BaseViewHolder<T>> {
 
     private static final String TAG = "RecyclerAdapter";
-    private boolean allowLog = true;  //改成false关闭日志
+    private boolean allowLog = false;  //改成false关闭日志
 
     private static final int HEADER_TYPE = 111;
     private static final int FOOTER_TYPE = 222;
@@ -49,8 +49,14 @@ public abstract class RecyclerAdapter<T> extends RecyclerView.Adapter<BaseViewHo
 
     private Context mContext;
 
-    public void colseLog() {
+    public void closeLog() {
         allowLog = false;
+    }
+
+    private RecyclerAdapter.OnItemClickListener<T> listener;
+
+    public void setOnItemClickListener(OnItemClickListener<T> listener) {
+        this.listener = listener;
     }
 
     public RecyclerAdapter(Context context) {
@@ -78,17 +84,29 @@ public abstract class RecyclerAdapter<T> extends RecyclerView.Adapter<BaseViewHo
         mViewCount++;
     }
 
+
+
     @Override
     public BaseViewHolder<T> onCreateViewHolder(ViewGroup parent, int viewType) {
         if (viewType == HEADER_TYPE) {
-            return new BaseViewHolder<>(headerView);
+            BaseViewHolder<T> baseViewHolder = new BaseViewHolder<>(headerView);
+            baseViewHolder.setListener(listener);
+            return baseViewHolder;
         } else if (viewType == FOOTER_TYPE) {
-            return new BaseViewHolder<>(footerView);
+            BaseViewHolder<T> baseViewHolder = new BaseViewHolder<>(footerView);
+            baseViewHolder.setListener(listener);
+            return baseViewHolder;
         } else if (viewType == STATUS_TYPE) {
-            return new BaseViewHolder<>(mStatusView);
-        } else
-            return onCreateBaseViewHolder(parent, viewType);
+            BaseViewHolder<T> baseViewHolder = new BaseViewHolder<>(mStatusView);
+            baseViewHolder.setListener(listener);
+            return baseViewHolder;
+        } else{
+            BaseViewHolder<T> baseViewHolder = onCreateBaseViewHolder(parent, viewType);
+            baseViewHolder.setListener(listener);
+            return baseViewHolder;
+        }
     }
+
 
     public abstract BaseViewHolder<T> onCreateBaseViewHolder(ViewGroup parent, int viewType);
 
@@ -130,6 +148,7 @@ public abstract class RecyclerAdapter<T> extends RecyclerView.Adapter<BaseViewHo
             }
         }
     }
+
 
     /**
      * ViewHolder 更新 Item 的位置选择 ViewType , 和 UI 是同步的
@@ -366,5 +385,9 @@ public abstract class RecyclerAdapter<T> extends RecyclerView.Adapter<BaseViewHo
         if (allowLog) {
             Log.i(TAG, content);
         }
+    }
+
+    public interface OnItemClickListener<T>{
+        void onItemClick(T data,int position);
     }
 }

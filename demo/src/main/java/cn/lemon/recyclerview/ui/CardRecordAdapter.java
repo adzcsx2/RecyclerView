@@ -16,6 +16,9 @@ class CardRecordAdapter extends RecyclerAdapter<Consumption> {
 
     @Override
     public BaseViewHolder<Consumption> onCreateBaseViewHolder(ViewGroup parent, int viewType) {
-        return new CardRecordHolder(parent);
+        CardRecordHolder cardRecordHolder = new CardRecordHolder(parent);
+        return cardRecordHolder;
     }
+
+
 }
