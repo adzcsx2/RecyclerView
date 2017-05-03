@@ -3,6 +3,7 @@
 
 ### 做了几个更新
 1、关闭log日志显示，增加了adapter的onItemClickListener
+
 2、修改了footer显示，改为 "没有更多了"
 
 ### 添加依赖
